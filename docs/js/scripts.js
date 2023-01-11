@@ -1,21 +1,17 @@
 const passwordGeneratedElement = document.getElementById('password-generated');
 
-const passwordGeneratorOptions = document.getElementById(
+const passwordGeneratorOptionsElement = document.getElementById(
   'password-generator-options'
 );
-const passwordGeneratorRange = document.getElementById(
+const passwordGeneratorRangeElement = document.getElementById(
   'password-generator-range'
 );
-const passwordGeneratorLengthNumber = document.getElementById(
+const passwordGeneratorLengthNumberElement = document.getElementById(
   'password-generator-length-number'
 );
 
 const allCheckbox = [...document.querySelectorAll('input[type="checkbox"]')];
-
-const allStrengthMeter = [...document.querySelectorAll('.strength__meter')];
-
 const strengthValueElement = document.getElementById('strength-value');
-
 const uppercaseElement = document.getElementById('uppercase');
 const lowercaseElement = document.getElementById('lowercase');
 const numbersElement = document.getElementById('numbers');
@@ -37,7 +33,7 @@ let allCharactersAllowed = '';
 const checkInputsChecked = () =>
   allCheckbox.filter(checkbox => checkbox.checked);
 
-const allowedCharacters = optionsChecked => {
+const setAllowedCharacters = optionsChecked => {
   if (!optionsChecked.length) return;
   allCharactersAllowed = '';
   optionsChecked.forEach(
@@ -58,37 +54,37 @@ const generatePassword = () => {
 
 const setPasswordRange = value => {
   passwordOptions.length = value;
-  passwordGeneratorLengthNumber.textContent = passwordOptions.length;
+  passwordGeneratorLengthNumberElement.textContent = passwordOptions.length;
 };
 
 const setStrengthValue = optionsChecked => {
   if (!optionsChecked.length) return;
-
-  strengthValueElement.textContent =
-    passwordOptions.length > 5
-      ? passwordStrengthMessages[optionsChecked.length - 1]
-      : 'TOO SHORT';
+  if (passwordOptions.length < 5) {
+    strengthValueElement.textContent = 'TOO SHORT';
+  } else {
+    passwordStrengthMessages[optionsChecked.length - 1];
+  }
 };
 
-passwordGeneratorOptions.addEventListener('submit', e => {
+passwordGeneratorOptionsElement.addEventListener('submit', e => {
   e.preventDefault();
+  if (buttonGenerate.disabled) return;
+  generatePassword();
 });
 
-passwordGeneratorOptions.addEventListener('change', e => {
+passwordGeneratorOptionsElement.addEventListener('change', e => {
   const optionsChecked = checkInputsChecked();
+
   if (e.target.id === 'password-generator-range') {
     setPasswordRange(e.target.value);
   }
+
   if (optionsChecked.length > 0 && passwordOptions.length > 5) {
     buttonGenerate.removeAttribute('disabled');
   } else {
     buttonGenerate.setAttribute('disabled', 'true');
   }
-  setStrengthValue(optionsChecked);
-  allowedCharacters(optionsChecked);
-});
 
-buttonGenerate.addEventListener('click', () => {
-  if (buttonGenerate.disabled) return;
-  generatePassword();
+  setStrengthValue(optionsChecked);
+  setAllowedCharacters(optionsChecked);
 });
