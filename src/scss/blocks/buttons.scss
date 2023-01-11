@@ -1,0 +1,18 @@
+.button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  height: 3rem;
+  border: none;
+  background-color: var(--neon-green);
+
+  &:disabled {
+    background-color: var(--grey);
+  }
+
+  &:active:not(&:disabled) {
+    transform: scale(0.95);
+  }
+}
