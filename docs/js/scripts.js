@@ -62,7 +62,8 @@ const setStrengthValue = optionsChecked => {
   if (passwordOptions.length < 5) {
     strengthValueElement.textContent = 'TOO SHORT';
   } else {
-    passwordStrengthMessages[optionsChecked.length - 1];
+    strengthValueElement.textContent =
+      passwordStrengthMessages[optionsChecked.length - 1];
   }
 };
 
@@ -88,3 +89,5 @@ passwordGeneratorOptionsElement.addEventListener('change', e => {
   setStrengthValue(optionsChecked);
   setAllowedCharacters(optionsChecked);
 });
+
+console.log(passwordGeneratorRangeElement.value);
