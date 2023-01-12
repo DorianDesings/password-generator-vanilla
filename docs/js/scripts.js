@@ -58,9 +58,12 @@ const setPasswordRange = value => {
 };
 
 const setStrengthValue = optionsChecked => {
-  if (!optionsChecked.length) return;
+  console.log(optionsChecked.length);
+
   if (passwordOptions.length < 5) {
     strengthValueElement.textContent = 'TOO SHORT';
+  } else if (optionsChecked.length === 0) {
+    strengthValueElement.textContent = 'NO OPTIONS CHECKED';
   } else {
     strengthValueElement.textContent =
       passwordStrengthMessages[optionsChecked.length - 1];
