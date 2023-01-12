@@ -10,7 +10,6 @@ const passwordGeneratorLengthNumberElement = document.getElementById(
   'password-generator-length-number'
 );
 
-const allCheckbox = [...document.querySelectorAll('input[type="checkbox"]')];
 const strengthValueElement = document.getElementById('strength-value');
 const uppercaseElement = document.getElementById('uppercase');
 const lowercaseElement = document.getElementById('lowercase');
@@ -30,8 +29,7 @@ const passwordOptions = {
 
 let allCharactersAllowed = '';
 
-const checkInputsChecked = () =>
-  allCheckbox.filter(checkbox => checkbox.checked);
+const checkInputsChecked = () => document.querySelectorAll('input:checked');
 
 const setAllowedCharacters = optionsChecked => {
   if (!optionsChecked.length) return;
@@ -58,8 +56,6 @@ const setPasswordRange = value => {
 };
 
 const setStrengthValue = optionsChecked => {
-  console.log(optionsChecked.length);
-
   if (passwordOptions.length < 5) {
     strengthValueElement.textContent = 'TOO SHORT';
   } else if (optionsChecked.length === 0) {
@@ -72,7 +68,6 @@ const setStrengthValue = optionsChecked => {
 
 passwordGeneratorOptionsElement.addEventListener('submit', e => {
   e.preventDefault();
-  if (buttonGenerate.disabled) return;
   generatePassword();
 });
 
@@ -86,11 +81,9 @@ passwordGeneratorOptionsElement.addEventListener('change', e => {
   if (optionsChecked.length > 0 && passwordOptions.length > 5) {
     buttonGenerate.removeAttribute('disabled');
   } else {
-    buttonGenerate.setAttribute('disabled', 'true');
+    buttonGenerate.setAttribute('disabled', '');
   }
 
   setStrengthValue(optionsChecked);
   setAllowedCharacters(optionsChecked);
 });
-
-console.log(passwordGeneratorRangeElement.value);
